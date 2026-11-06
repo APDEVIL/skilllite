@@ -1,0 +1,353 @@
+/* ─────────────────────────────────────────────
+   FONTS — must be FIRST before all other imports
+───────────────────────────────────────────── */
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap");
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ─────────────────────────────────────────────
+   CSS VARIABLES — Design Tokens
+───────────────────────────────────────────── */
+:root {
+  /* Base palette — deep navy dark theme */
+  --background: 222 47% 5%;
+  --foreground: 210 40% 96%;
+
+  --card: 222 47% 8%;
+  --card-foreground: 210 40% 96%;
+
+  --popover: 222 47% 8%;
+  --popover-foreground: 210 40% 96%;
+
+  /* Electric blue primary */
+  --primary: 217 91% 60%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Violet secondary */
+  --secondary: 263 70% 50%;
+  --secondary-foreground: 0 0% 100%;
+
+  --muted: 217 32% 14%;
+  --muted-foreground: 215 20% 50%;
+
+  --accent: 217 32% 14%;
+  --accent-foreground: 210 40% 96%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 217 32% 14%;
+  --input: 217 32% 14%;
+  --ring: 217 91% 60%;
+
+  --radius: 0.75rem;
+
+  /* Chart colors */
+  --chart-1: 217 91% 60%;
+  --chart-2: 263 70% 60%;
+  --chart-3: 160 84% 39%;
+  --chart-4: 38 92% 50%;
+  --chart-5: 0 84% 60%;
+
+  /* Custom brand tokens */
+  --brand-blue: #3b82f6;
+  --brand-violet: #7c3aed;
+  --brand-cyan: #06b6d4;
+  --brand-indigo: #6366f1;
+  --surface-1: #080d1a;
+  --surface-2: #0d1530;
+  --surface-3: #111827;
+  --surface-card: rgba(255, 255, 255, 0.04);
+  --surface-card-hover: rgba(255, 255, 255, 0.07);
+  --border-subtle: rgba(255, 255, 255, 0.08);
+}
+
+/* ─────────────────────────────────────────────
+   BASE RESET & GLOBAL STYLES
+───────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: "DM Sans", sans-serif;
+  font-feature-settings: "rlig" 1, "calt" 1;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Syne", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* ─────────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted));
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(217 32% 22%);
+}
+
+/* ─────────────────────────────────────────────
+   SELECTION
+───────────────────────────────────────────── */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: #fff;
+}
+
+/* ─────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────── */
+
+/* Floating cards on landing */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Fade in up — used for page entry */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Shimmer loading skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(217 32% 20%) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Pulse glow */
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Score ring draw */
+@keyframes drawRing {
+  from {
+    stroke-dashoffset: 283;
+  }
+  to {
+    stroke-dashoffset: var(--target-offset);
+  }
+}
+
+.animate-draw-ring {
+  animation: drawRing 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Stagger children fade in */
+.stagger-children > * {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 80ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 160ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 240ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 320ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 400ms; }
+
+/* ─────────────────────────────────────────────
+   UTILITY CLASSES
+───────────────────────────────────────────── */
+
+/* Glass card */
+.glass-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-card:hover {
+  background: var(--surface-card-hover);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Gradient text */
+.gradient-text-blue {
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gradient-text-violet {
+  background: linear-gradient(135deg, #a78bfa, #ec4899);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Surface layers */
+.surface-1 { background-color: var(--surface-1); }
+.surface-2 { background-color: var(--surface-2); }
+.surface-3 { background-color: var(--surface-3); }
+
+/* Sidebar active link */
+.sidebar-link-active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(124, 58, 237, 0.1));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+/* Score ring container */
+.score-ring-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Custom input focus ring */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: none;
+  ring: 2px solid hsl(var(--ring));
+}
+
+/* ─────────────────────────────────────────────
+   SHADCN OVERRIDES — match dark theme
+───────────────────────────────────────────── */
+.card {
+  background: hsl(var(--card));
+  border: 1px solid var(--border-subtle);
+}
+
+/* Badge variants */
+.badge-blue {
+  @apply bg-blue-500/15 text-blue-400 border border-blue-500/25;
+}
+.badge-violet {
+  @apply bg-violet-500/15 text-violet-400 border border-violet-500/25;
+}
+.badge-emerald {
+  @apply bg-emerald-500/15 text-emerald-400 border border-emerald-500/25;
+}
+.badge-amber {
+  @apply bg-amber-500/15 text-amber-400 border border-amber-500/25;
+}
+.badge-red {
+  @apply bg-red-500/15 text-red-400 border border-red-500/25;
+}
+
+/* ─────────────────────────────────────────────
+   SONNER TOAST OVERRIDES
+───────────────────────────────────────────── */
+[data-sonner-toaster] [data-sonner-toast] {
+  background: hsl(222 47% 10%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: hsl(var(--foreground)) !important;
+  font-family: "DM Sans", sans-serif !important;
+}
+
+[data-sonner-toaster] [data-sonner-toast][data-type="success"] {
+  border-color: rgba(52, 211, 153, 0.25) !important;
+}
+
+[data-sonner-toaster] [data-sonner-toast][data-type="error"] {
+  border-color: rgba(248, 113, 113, 0.25) !important;
+}
+
+/* ─────────────────────────────────────────────
+   UPLOADTHING OVERRIDES
+───────────────────────────────────────────── */
+.ut-button {
+  background: linear-gradient(135deg, #3b82f6, #7c3aed) !important;
+}
+
+.ut-upload-icon {
+  color: #60a5fa !important;
+}
+
+/* ─────────────────────────────────────────────
+   RECHARTS OVERRIDES
+───────────────────────────────────────────── */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: hsl(222 47% 10%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.05) !important;
+}
